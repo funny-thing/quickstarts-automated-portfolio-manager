@@ -12,15 +12,21 @@ contract DeployOffChainDataFetcher is Script {
 
     function run() external returns (OffchainDataFetcher) {
         HelperConfig helperConfig = new HelperConfig();
-        (address functionsRouter,,) = helperConfig.activeNetworkConfig();
+        (address functionsRouter, , ) = helperConfig.activeNetworkConfig();
 
         vm.startBroadcast();
-        OffchainDataFetcher offchainDataFetcher = new OffchainDataFetcher(functionsRouter);
+        OffchainDataFetcher offchainDataFetcher = new OffchainDataFetcher(
+            functionsRouter
+        );
         vm.stopBroadcast();
 
         string memory jsonObj = "internal_key";
 
-        string memory finalJson = vm.serializeAddress(jsonObj, "offchainDataFetcher", address(offchainDataFetcher));
+        string memory finalJson = vm.serializeAddress(
+            jsonObj,
+            "offchainDataFetcher",
+            address(offchainDataFetcher)
+        );
 
         console.log(finalJson);
 
